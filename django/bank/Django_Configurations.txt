@@ -1,0 +1,116 @@
+
+https://www.javatpoint.com/django-crud-example --
+
+
+Django initial configuration..
+	-- activate virtual env
+	(clcenv)> pip install django
+	(clcenv)> django-admin --version
+	(clcenv)> django-admin startproject bank
+	
+		bank is a project/application which will have modules/app
+	
+	(clcenv)> cd bank
+	(clcenv)/bank>manage.py startapp customer  -- customer is a module inside root project called as bank here.
+	(clcenv)/bank>manage.py startapp loaddept
+	
+	
+	
+	bank -- root project/package
+		__init__.py -- tells this is not a normal folder, however its a package...
+		
+		settingssettings.py-- 
+			apps
+			databases
+			middlewares--
+			validators
+			tempaltes -- html files.
+			statics files locations
+			charset
+			timezone
+		
+		will have entire configuration of project.
+			database configures..
+			all apps-- modules..
+			middlewares..
+				- interceptors.
+						..before hitting server --request..intercept-- 
+						..before coming back to end user response -intercept
+						
+						to add tokens/session/authetications..
+			
+			middlewares always gets executed in seq-- for request --top to bottom
+			and response...bottom to top..
+			TEMPLATES -- you can specify your jinja tempalte locations..ultimatimatly--html file locations...
+			DATABASES -- by default sqlite3-- you can configure it for any specific db..
+			
+		urls.py	 - routes..(if comparing with flask -- app.route())
+			this file will have application routes..when requests
+			comes to django first it will check this file to identify
+			which method/business logic  to call
+		
+		wsgi -- server level congfigurations..
+	
+
+
+	 customer -- appName
+		 migrations -- just before creating tables in database..create structures here in python format..
+		 
+		 init -- customer is not a folder its a package
+		 admin -- to register this app with admin portal -- requires this file
+		 apps -- --
+		 views -- Business logic
+		 model -- which python fields to map with table colmn-- which table which coln -- ORM
+		 tests - test cases to test your business logic..developer always writes unit tests/module tests/whitebox test cases..
+		 
+		 in order to write the test cases -- we are going to use
+		 django.test..unittest..pytest.. out of which you tell..
+		 
+		#urls.py -- this file we are going to add..coding convetion..modularity..every app/module will hold only its specific root urls...
+		 
+		#serializer.py -- serialization and deserialization logic..for this app
+		 
+		#forms -- to add user interface elements --
+			
+		 root urls.py is going hold...only app routes...
+		 
+
+	
+	manage -- command line manage/configure- django project..
+	
+	
+	
+	(clcenv)bank>>manage.py makemigrations -- will scan entire app list form settings.py and prepare its table structures -- inside every app migrations folder...
+	(clcenv)bank>>manage.py migrate -- its equivalent to db.create_all() in flask..so it will check every apps migrations folder and thr structures accordingly will create tables into the database as you have specified db configuration inside settings.py..
+	
+	(clcenv)bank>>manage.py createsuperuser --username=yogymax --email=yogymax@gmail.com
+	
+	(clcenv)bank>>manage.py runserver 
+	
+	
+	
+	
+	
+	mvc vs mvt --
+	
+		model  --  lang files..java/python madhe written code...
+		view -- user interface..frond end technologies..
+		controller  -- flask/django
+		
+			model  -- db configuration
+			view  -- business logic
+			template -- ui part...
+			controller --- django...
+			
+	
+	
+	
+	
+	
+	UI ----->Server--Process
+		<-----response
+		
+		
+	UI --->SErver -- process--redirect
+	
+	

@@ -1,0 +1,153 @@
+
+ Django Mapping -- Command.. Settings.py..
+ 
+	1-1
+	1-M
+	M-1
+	M-M
+	
+ 
+	Book
+	Author
+	Address
+	Publisher 
+	
+	
+	appname_book -- tablename..
+	flask -- __tablename__
+	django -- 
+		class Meta -- metadata --- data about data..additional info
+	
+	
+	
+	ManyToMany ---
+		amenities = models.ManyToManyField(Amenity)
+	OneToOne
+		item = models.OneToOneField(Item,on_delete=models.CASCADE)
+		item = models.ForeignKey(Item,on_delete=models.CASCADE,unique=True) -- one to one
+	OneToMany
+		item = models.ForeignKey(Item,on_delete=models.CASCADE)
+	
+	Publisher -- Address -- 1-1
+	
+	
+	Book ---- > Author -- 1 -M 
+	
+	Author ---- > Address --  M-M - third table
+	
+	
+	Publisher -- Book -- 1--M
+	
+	
+	
+Python side object structure	
+		address -- id,city,pincode
+		publisher --id,pname,noOfBooks,address
+
+Database Side
+address -- id,city,pincode
+publisher --id,pname,noOfBooks,address
+	
+Book ---- > Author -- 1 -M 
+
+
+
+	ad1 = Address(id=1122,city="Pune",pincode=123123)
+	
+	class Address(models.Model):
+		city = models.CharField(max_length=30)
+		pincode = models.IntegerField()
+		
+		class Meta:
+			db_table="Address_Info"
+	
+	
+	class Publisher(models.Model):
+		pname = models.CharField(max_length=30)
+		noOfBooks = models.IntegerField()
+		address = models.OneToOneField(Address,on_delete=models.CASCADE)
+		books = models.ForeignKey(Book,on_delete=models.CASCADE)
+		class Meta:
+			db_table="Publisher_Info"
+	
+
+pythonside ...
+Author obj -- id,fname,lname,age
+bookobj	-- id bookName,price,qty,author
+	
+db side	
+
+Author obj -- id,fname,lname,age
+bookobj	-- id bookName,price,qty,author	
+	
+	
+	a1=Author(id=1,fName="PyAuthor",lName="pyBBB",age=44)
+	
+	class Author(models.Model):
+		fName = models.CharField(max_length=30)
+		lName = models.CharField(max_length=30)
+		age = models.IntegerField()
+		address = models.ManyToManyField(Address)
+		
+		class Meta:
+			db_table="Author_Info"
+		
+	
+	class Book(models.Model):
+		bookName = models.CharField(max_length=30)
+		price = models.IntegerField()
+		qty = models.IntegerField()
+		author = models.ForeignKey(Author,on_delete=models.CASCADE)
+		
+		class Meta:
+			db_table="Book_Info"
+			
+	
+	
+
+Note -- django shell should always start/invoke from rootproject 
+location -- reason -- you will get database configures inside 
+your command line ..shell..
+
+-- make sure  - you perform above mentioned inside ..virtual env	
+	
+activate virtual env
+navigate to the project location --
+	E:\clc\djangoprojs\modelrelship\relship\
+>>manage.py shell
+
+
+ManyToMany --
+
+
+ import os
+>>> os.chdir('E:\\clc\\djangoprojs\\modelrelship\\relship\\')
+>>> from relship.models import Book,Address,Author,Publisher
+>>> ad1 = Address(id=1122,city="Pune",pincode=123123)
+>>> ad2 = Address(id=1123,city="Mumbai",pincode=123222)
+>>> ad1.save()
+>>> ad2.save()
+>>> a1=Author(id=1,fName="PyAuthor",lName="pyBBB",age=44)
+>>> a1.save()
+>>> a2=Author(id=2,fName="JavaAuthor",lName="javaBBB",age=44)
+>>> a2.save()
+>>> a3=Author(fName="JavaAuthor",lName="javaBBB",age=44)
+>>> a3.save()
+>>> a1.address.add(ad1)
+>>> a1.save()
+>>> a2.address.add(ad1)
+>>> a2.save()
+>>> a1.address.add(ad2)
+>>> a1.save()
+>>ad3 = Address(id=1133,city="Mumbai",pincode=123222)
+>>> ad3.save()
+>>> b4=Book(bookName="Python-DS",price=4402,qty=40,author_id=1)
+>>> b4.save()
+>>> p1=Publisher(pname="AAA",noOfBooks=20)
+>>> p1.address=ad3
+>>> p1.books=b4
+>>> p1.save()
+>>> b5=Book(bookName="Python-ML",price=4402,qty=40,author_id=1)
+>>> b5.save()
+>>> p1.books=b5
+>>> p1.save()
